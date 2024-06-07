@@ -9,5 +9,13 @@ public class PlanItHomePage {
 	public static WebElement getContactElement(final WebDriver driver) {
 		return driver.findElement(By.xpath("//a[@href='#/contact']"));
 	}
+
+	public static WebElement getShopElement(WebDriver driver) {
+		return driver.findElement(By.xpath("//a[@href='#/shop']"));
+	}
+
+	public static WebElement getCartElement(WebDriver driver) {
+		return driver.findElement(By.xpath("//a[@href='#/cart']"));
+	}
 	
 }

@@ -1,4 +1,4 @@
-package com.ian.project.test;
+package com.ian.project.test.testcases;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterSuite;

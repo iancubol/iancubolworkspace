@@ -4,18 +4,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.ian.project.locators.PlanItContactLocators;
+import com.ian.project.pages.PlanItCartPage;
 import com.ian.project.pages.PlanItContactPage;
 import com.ian.project.pages.PlanItHomePage;
+import com.ian.project.pages.PlanItShopPage;
 import com.ian.project.utils.HelperUtil;
 
 public class PlanItSteps {
 	
 	private WebDriver driver;
 	private HelperUtil util;
+	private PlanItShopPage shop;
 
 	public PlanItSteps(WebDriver driver) {
 		this.driver = driver;
 		this.util = new HelperUtil(driver);
+		this.shop = new PlanItShopPage();
 	}
 	
 	public void goToContacts() throws InterruptedException {
@@ -68,12 +72,53 @@ public class PlanItSteps {
 
 	public boolean checkValidFeedbackMessage() {
 		util.waitForElementToBeVisible(By.xpath(PlanItContactLocators.TXT_SUCCESSBANNERMSG_XPATH), 5);
-		return util.isElementPresent(By.id(PlanItContactLocators.TXT_SUCCESSBANNERMSG_XPATH), 10);
+		return util.isElementPresent(By.xpath(PlanItContactLocators.TXT_SUCCESSBANNERMSG_XPATH), 15);
 	}
 
 	public boolean checkSubmittingFeedbackBanner() {
 		util.waitForElementToBeVisible(By.xpath(PlanItContactLocators.IMG_SENDINGFEEDBACK_XPATH), 5);
-		return util.isElementPresent(By.id(PlanItContactLocators.IMG_SENDINGFEEDBACK_XPATH), 10);
+		return util.isElementPresent(By.xpath(PlanItContactLocators.IMG_SENDINGFEEDBACK_XPATH), 15);
+	}
+	
+	public void goToShop() throws InterruptedException {
+		PlanItHomePage.getShopElement(driver).click();
+		util.waitForPageToLoad();
+	}
+
+	public void buyItem(String item, int qty) {
+		for (int i = 0; i < qty; i++) {
+			PlanItShopPage.getItemBuyButton(driver, item).click();
+		}
+		shop.addToCart(item, qty);	
+	}
+
+	public void goToCart() {
+		PlanItHomePage.getCartElement(driver).click();
+		util.waitForPageToLoad();
+	}
+
+	public String getItemSubTotal(String item) {
+		return shop.getSubTotal(item);
+	}
+
+	public String getActualItemSubTotal(String item) {
+		return PlanItCartPage.getItemSubTotal(driver, item).getText();
+	}
+
+	public String getItemPrice(String item) {
+		return shop.getPrice(item);
+	}
+
+	public String getActualItemPrice(String item) {
+		return PlanItCartPage.getItemPrice(driver, item).getText();
+	}
+
+	public String getCartTotal() {
+		return shop.getTotal();
+	}
+
+	public String getActualCartTotal() {
+		return PlanItCartPage.getCartTotal(driver).getText();
 	}
 
 }
